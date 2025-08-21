@@ -1,51 +1,73 @@
-import { useState } from "react"; import { motion } from "framer-motion"; import { Globe2, Search, Filter } from "lucide-react"; import { Card, CardContent } from "@/components/ui/card"; import { Button } from "@/components/ui/button"; import { Input } from "@/components/ui/input";
-
-export default function HomePage() { const [search, setSearch] = useState("");
-
-const featuredCountries = [ { name: "Japan", capital: "Tokyo", population: "125.7M" }, { name: "Brazil", capital: "Brasília", population: "213.3M" }, { name: "France", capital: "Paris", population: "67.4M" }, ];
-
-return ( <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col"> {/* Hero Section */} <header className="text-center py-16"> <motion.h1 className="text-5xl font-bold text-indigo-900 flex justify-center items-center gap-2" initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} > <Globe2 className="w-12 h-12 text-indigo-700" /> Explore The World </motion.h1> <p className="text-lg text-indigo-700 mt-4"> Discover countries, cultures, and fascinating facts. </p>
-
-{/* Search Bar */}
-    <div className="mt-8 flex justify-center gap-2 max-w-md mx-auto">
-      <Input
-        placeholder="Search a country..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        className="rounded-2xl shadow-md"
-      />
-      <Button className="rounded-2xl px-4 flex gap-1">
-        <Search className="w-4 h-4" />
-        Search
-      </Button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>You Know The World</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #5efce8 0%, #736efe 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            margin-top: 40px;
+            font-size: 2.8em;
+            font-weight: bold;
+            color: #fff;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 8px #4448;
+        }
+        .search-container {
+            margin: 30px 0 25px 0;
+        }
+        .search-box {
+            padding: 12px;
+            font-size: 1em;
+            border-radius: 22px;
+            border: none;
+            width: 260px;
+            box-shadow: 0 2px 12px #0002;
+        }
+        .countries-list {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 30px 40px;
+            box-shadow: 0 4px 14px #0001;
+        }
+        .country {
+            margin: 15px 0;
+            font-size: 1.25em;
+            color: #fff;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            transition: color 0.2s;
+        }
+        .country:hover {
+            color: #60f5a8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">You Know The World</div>
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search for a country...">
     </div>
-  </header>
-
-  {/* Featured Countries */}
-  <main className="flex-1 px-6 lg:px-20 py-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-    {featuredCountries.map((country, i) => (
-      <motion.div
-        key={i}
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: i * 0.2 }}
-      >
-        <Card className="rounded-2xl shadow-lg hover:shadow-2xl transition">
-          <CardContent className="p-6">
-            <h2 className="text-xl font-semibold text-indigo-800">
-              {country.name}
-            </h2>
-            <p className="text-sm text-gray-600">Capital: {country.capital}</p>
-            <p className="text-sm text-gray-600">Population: {country.population}</p>
-            <Button className="mt-4 w-full rounded-xl">Learn More</Button>
-          </CardContent>
-        </Card>
-      </motion.div>
-    ))}
-  </main>
-
-  {/* Footer */}
-  <footer className="bg-indigo-900 text-white text-center py-6 mt-auto">
-    <p>🌍 World
-
-      
+    <div class="countries-list">
+        <div class="country">Argentina</div>
+        <div class="country">Australia</div>
+        <div class="country">Brazil</div>
+        <div class="country">Canada</div>
+        <div class="country">China</div>
+        <div class="country">France</div>
+        <div class="country">Germany</div>
+        <div class="country">India</div>
+        <div class="country">Japan</div>
+        <div class="country">United States</div>
+    </div>
+</body>
+</html>
