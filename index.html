@@ -1,222 +1,278 @@
-<!DOCTYPE html>
+<!doctype html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Know The World</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-
-  body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f5f8fa;
-    margin: 0; padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  header {
-    margin-top: 40px;
-    font-size: 3rem;
-    font-weight: 600;
-    color: #2c3e50;
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: 2px;
-  }
-  .search-container {
-    margin: 20px 0 40px 0;
-    width: 60%;
-  }
-  input[type="search"] {
-    width: 100%;
-    padding: 12px 20px;
-    font-size: 1.2rem;
-    border: 2px solid #3498db;
-    border-radius: 8px;
-    outline: none;
-    transition: 0.3s;
-  }
-  input[type="search"]:focus {
-    border-color: #2980b9;
-    box-shadow: 0 0 8px #2980b9;
-  }
-
-  .country-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
-    gap: 25px;
-    width: 75%;
-    margin-bottom: 60px;
-  }
-
-  .country-folder {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgb(0 0 0 / 0.1);
-    cursor: pointer;
-    text-align: center;
-    padding: 15px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: transform 0.3s ease;
-  }
-  .country-folder:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
-  }
-
-  .flag-vertical {
-    width: 40px;
-    height: 60px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    object-fit: cover;
-    margin-bottom: 12px;
-  }
-
-  .country-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #34495e;
-  }
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>English Practice AI — Speak & Improve</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa6b2;--accent:#3b82f6;--glass:rgba(255,255,255,0.03)}
+    *{box-sizing:border-box;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
+    body{margin:0;background:linear-gradient(180deg,#071127 0%, #071e2a 100%);color:#e6eef6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .app{width:100%;max-width:980px;background:var(--card);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
+    header{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    header h1{margin:0;font-size:20px}
+    .controls{display:flex;gap:8px;margin-left:auto}
+    button{background:var(--glass);border:1px solid rgba(255,255,255,0.04);color:inherit;padding:8px 12px;border-radius:10px;cursor:pointer}
+    .columns{display:grid;grid-template-columns:360px 1fr;gap:14px}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px}
+    .mode{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+    .mode button.active{outline:2px solid rgba(59,130,246,0.25);box-shadow:0 6px 18px rgba(59,130,246,0.08)}
+    .log{height:480px;overflow:auto;padding:8px;border-radius:8px;background:rgba(0,0,0,0.06)}
+    .entry{margin:8px 0;padding:8px;border-radius:8px}
+    .user{background:linear-gradient(90deg, rgba(59,130,246,0.12), rgba(59,130,246,0.06));text-align:right}
+    .bot{background:rgba(255,255,255,0.02)}
+    .transcript{margin-top:8px;color:var(--muted);font-size:13px}
+    .settings{margin-top:10px;display:flex;gap:8px;flex-direction:column}
+    label{font-size:13px;color:var(--muted)}
+    input[type=text],textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    footer{margin-top:12px;font-size:13px;color:var(--muted)}
+    .small{font-size:12px;color:var(--muted)}
+    .corrections{background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;margin-top:8px;color:#ffd6d6}
+  </style>
 </head>
 <body>
+  <div class="app">
+    <header>
+      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36'><rect rx='8' width='36' height='36' fill='%233b82f6'/><text x='50%' y='55%' font-size='16' font-family='Arial' text-anchor='middle' fill='white'>EN</text></svg>" alt="logo" style="width:42px;height:42px;border-radius:8px;"/>
+      <h1>English Practice AI — Speak & Improve</h1>
+      <div class="controls">
+        <button id="startListen">Start Listening</button>
+        <button id="stopListen" disabled>Stop</button>
+      </div>
+    </header><div class="columns">
+  <div class="panel">
+    <div class="mode">
+      <button class="mode-btn active" data-mode="casual">Casual Chat</button>
+      <button class="mode-btn" data-mode="interview">Interview</button>
+      <button class="mode-btn" data-mode="corrections">Correction Mode</button>
+    </div>
 
-<header>Know The World</header>
+    <div class="log" id="log" aria-live="polite"></div>
 
-<div class="search-container">
-  <input type="search" placeholder="Search countries..." id="searchInput" onkeyup="filterCountries()" />
+    <div class="transcript" id="transcript">Transcript: —</div>
+
+    <div class="settings">
+      <label>Type a message (or press Enter)</label>
+      <input id="userInput" placeholder="Say something like: "Hello! I'm practicing my English." />
+
+      <label>Optional: Paste your OpenAI API key (leave blank to use the built-in offline bot)</label>
+      <input id="apiKey" type="text" placeholder="sk-... (optional)" />
+
+      <label>TTS voice:</label>
+      <select id="voiceSelect"></select>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3 style="margin-top:0">How to use</h3>
+    <ol>
+      <li>Pick a mode. <strong>Corrections</strong> will show simple grammar suggestions.</li>
+      <li>Click <em>Start Listening</em> and speak, or type into the box and press Enter.</li>
+      <li>If you add an OpenAI API key the app will use it to produce much better replies (your key stays in your browser only).</li>
+    </ol>
+
+    <h3>What this AI can do</h3>
+    <ul>
+      <li>Practice casual conversation and interviews.</li>
+      <li>Give short corrections and alternative phrasing.</li>
+      <li>Read the AI responses aloud (Text-to-Speech).</li>
+    </ul>
+
+    <div class="corrections" id="correctionsPanel" style="display:none"></div>
+
+    <footer>
+      <div class="small">This page runs entirely in your browser. No audio is sent anywhere unless you provide an OpenAI API key and enable sending text to the OpenAI API.</div>
+    </footer>
+  </div>
 </div>
 
-<div class="country-grid" id="countryGrid">
+  </div>  <script>
+  // Small English practice app
+  (function(){
+    const log = document.getElementById('log');
+    const transcriptEl = document.getElementById('transcript');
+    const startBtn = document.getElementById('startListen');
+    const stopBtn = document.getElementById('stopListen');
+    const userInput = document.getElementById('userInput');
+    const apiKeyInput = document.getElementById('apiKey');
+    const correctionsPanel = document.getElementById('correctionsPanel');
+    const voiceSelect = document.getElementById('voiceSelect');
+    let currentMode = 'casual';
 
-  <!-- Example folder format -->
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Australia">
-    <img src="https://flagcdn.com/w40/au.png" alt="Australia Flag" class="flag-vertical" />
-    <div class="country-name">Australia</div>
-  </div>
+    // Mode buttons
+    document.querySelectorAll('.mode-btn').forEach(b=>b.addEventListener('click', ()=>{
+      document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      currentMode = b.dataset.mode;
+      correctionsPanel.style.display = currentMode==='corrections' ? 'block' : 'none';
+      appendBot(`Mode switched to: ${prettyMode(currentMode)}`);
+    }));
 
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Brazil">
-    <img src="https://flagcdn.com/w40/br.png" alt="Brazil Flag" class="flag-vertical" />
-    <div class="country-name">Brazil</div>
-  </div>
+    function prettyMode(m){return ({casual:'Casual Chat', interview:'Interview Practice', corrections:'Correction Mode'})[m]||m}
 
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Canada">
-    <img src="https://flagcdn.com/w40/ca.png" alt="Canada Flag" class="flag-vertical" />
-    <div class="country-name">Canada</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for China">
-    <img src="https://flagcdn.com/w40/cn.png" alt="China Flag" class="flag-vertical" />
-    <div class="country-name">China</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for France">
-    <img src="https://flagcdn.com/w40/fr.png" alt="France Flag" class="flag-vertical" />
-    <div class="country-name">France</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Germany">
-    <img src="https://flagcdn.com/w40/de.png" alt="Germany Flag" class="flag-vertical" />
-    <div class="country-name">Germany</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for India">
-    <img src="https://flagcdn.com/w40/in.png" alt="India Flag" class="flag-vertical" />
-    <div class="country-name">India</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Italy">
-    <img src="https://flagcdn.com/w40/it.png" alt="Italy Flag" class="flag-vertical" />
-    <div class="country-name">Italy</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Japan">
-    <img src="https://flagcdn.com/w40/jp.png" alt="Japan Flag" class="flag-vertical" />
-    <div class="country-name">Japan</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Mexico">
-    <img src="https://flagcdn.com/w40/mx.png" alt="Mexico Flag" class="flag-vertical" />
-    <div class="country-name">Mexico</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Netherlands">
-    <img src="https://flagcdn.com/w40/nl.png" alt="Netherlands Flag" class="flag-vertical" />
-    <div class="country-name">Netherlands</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Nigeria">
-    <img src="https://flagcdn.com/w40/ng.png" alt="Nigeria Flag" class="flag-vertical" />
-    <div class="country-name">Nigeria</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Russia">
-    <img src="https://flagcdn.com/w40/ru.png" alt="Russia Flag" class="flag-vertical" />
-    <div class="country-name">Russia</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Saudi Arabia">
-    <img src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia Flag" class="flag-vertical" />
-    <div class="country-name">Saudi Arabia</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for South Africa">
-    <img src="https://flagcdn.com/w40/za.png" alt="South Africa Flag" class="flag-vertical" />
-    <div class="country-name">South Africa</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for South Korea">
-    <img src="https://flagcdn.com/w40/kr.png" alt="South Korea Flag" class="flag-vertical" />
-    <div class="country-name">South Korea</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Spain">
-    <img src="https://flagcdn.com/w40/es.png" alt="Spain Flag" class="flag-vertical" />
-    <div class="country-name">Spain</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Sweden">
-    <img src="https://flagcdn.com/w40/se.png" alt="Sweden Flag" class="flag-vertical" />
-    <div class="country-name">Sweden</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for Turkey">
-    <img src="https://flagcdn.com/w40/tr.png" alt="Turkey Flag" class="flag-vertical" />
-    <div class="country-name">Turkey</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for United Kingdom">
-    <img src="https://flagcdn.com/w40/gb.png" alt="United Kingdom Flag" class="flag-vertical" />
-    <div class="country-name">United Kingdom</div>
-  </div>
-
-  <div class="country-folder" tabindex="0" role="button" aria-label="Folder for United States">
-    <img src="https://flagcdn.com/w40/us.png" alt="United States Flag" class="flag-vertical" />
-    <div class="country-name">United States</div>
-  </div>
-
-</div>
-
-<script>
-  function filterCountries() {
-    const input = document.getElementById('searchInput');
-    const filter = input.value.toLowerCase();
-    const grid = document.getElementById('countryGrid');
-    const folders = grid.getElementsByClassName('country-folder');
-
-    for (let i = 0; i < folders.length; i++) {
-      const countryName = folders[i].querySelector('.country-name').textContent.toLowerCase();
-      if (countryName.indexOf(filter) > -1) {
-        folders[i].style.display = '';
-      } else {
-        folders[i].style.display = 'none';
-      }
+    function appendUser(text){
+      const div = document.createElement('div');div.className='entry user';div.textContent = text;log.appendChild(div);log.scrollTop = log.scrollHeight;
     }
-  }
-</script>
+    function appendBot(text){
+      const div = document.createElement('div');div.className='entry bot';div.textContent = text;log.appendChild(div);log.scrollTop = log.scrollHeight;
+      speak(text);
+    }
 
-</body>
+    // Basic offline bot responses (fallback)
+    function offlineReply(userText, mode){
+      const t = userText.toLowerCase();
+      if(mode==='interview'){
+        const q = [
+          "Tell me about yourself.",
+          "Why do you want this job?",
+          "What are your strengths and weaknesses?",
+          "Where do you see yourself in five years?"
+        ];
+        const chosen = q[Math.floor(Math.random()*q.length)];
+        return `Interview prompt: ${chosen}`;
+      }
+      if(mode==='corrections'){
+        return `I'll check and suggest corrections for: \n"${userText}"`;
+      }
+      // casual
+      if(/how are you|how's it going/.test(t)) return "I'm good — thanks for asking! Tell me about your day.";
+      if(/hello|hi\b/.test(t)) return "Hi! What would you like to talk about?";
+      if(/weather/.test(t)) return "I can't see real weather from here, but tell me what's it like where you are.";
+      // fallback
+      const prompts = [
+        "Tell me more about that.",
+        "Why do you think so?",
+        "That's interesting — can you explain?",
+        "Nice — how did that make you feel?"
+      ];
+      return prompts[Math.floor(Math.random()*prompts.length)];
+    }
+
+    // Grammar suggestions (very simple rules) — not a replacement for real grammar-checkers
+    function grammarSuggestions(text){
+      const suggestions = [];
+      // Capitalize 'i' pronoun
+      text.replace(/\b i \b/gi, match=>{
+        suggestions.push("Use uppercase 'I' when referring to yourself.");
+      });
+      // Missing question mark for questions starting with wh- or auxiliary verbs
+      if(/^\s*(who|what|where|when|why|how)\b/i.test(text) && !/[?]$/.test(text)){
+        suggestions.push("This sentence looks like a question — consider ending with a question mark.");
+      }
+      if(/^\s*(is|are|do|does|did|can|could|would|should|will)\b/i.test(text) && !/[?]$/.test(text)){
+        suggestions.push("This looks like a yes/no question — add a question mark at the end.");
+      }
+      // Simple common verb fix
+      if(/i have went|i wented/i.test(text)) suggestions.push("Use 'I went' or 'I have gone' instead of 'I have went' or 'I wented'.");
+      if(/\bwasn't\b/i.test(text)){} // placeholder
+      return [...new Set(suggestions)];
+    }
+
+    // Speech recognition setup
+    let recognition = null;
+    let listening = false;
+    try{
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.interimResults = true;
+      recognition.continuous = false;
+
+      recognition.onresult = (e)=>{
+        const full = Array.from(e.results).map(r=>r[0].transcript).join('');
+        transcriptEl.textContent = 'Transcript: ' + full;
+        if(e.results[0].isFinal){
+          onUserSpoken(full);
+        }
+      };
+      recognition.onerror = (ev)=>{console.error('Speech error', ev); appendBot('Speech recognition error: '+(ev.error||ev.message)); stopListening();}
+      recognition.onend = ()=>{listening=false;startBtn.disabled=false;stopBtn.disabled=true;}
+    }catch(err){
+      appendBot('Speech recognition not available in this browser. You can still type.');
+      startBtn.disabled = true;
+    }
+
+    function startListening(){ if(!recognition) return; listening=true; recognition.start(); startBtn.disabled=true; stopBtn.disabled=false; }
+    function stopListening(){ if(!recognition) return; recognition.stop(); listening=false; startBtn.disabled=false; stopBtn.disabled=true; }
+    startBtn.addEventListener('click', ()=> startListening());
+    stopBtn.addEventListener('click', ()=> stopListening());
+
+    // Text-to-Speech voices
+    function populateVoices(){
+      const voices = speechSynthesis.getVoices();
+      voiceSelect.innerHTML='';
+      voices.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.name + ' ('+v.lang+')'; voiceSelect.appendChild(o)});
+    }
+    populateVoices(); if(speechSynthesis.onvoiceschanged!==undefined) speechSynthesis.onvoiceschanged = populateVoices;
+
+    function speak(text){
+      if(!('speechSynthesis' in window)) return;
+      const u = new SpeechSynthesisUtterance(text);
+      const idx = Number(voiceSelect.value||0);
+      const voices = speechSynthesis.getVoices(); if(voices[idx]) u.voice = voices[idx];
+      u.rate = 1; u.pitch = 1; speechSynthesis.cancel(); speechSynthesis.speak(u);
+    }
+
+    // Handle user's spoken or typed input
+    async function onUserSpoken(text){
+      transcriptEl.textContent = 'Transcript: ' + text;
+      appendUser(text);
+
+      // If API key provided, call OpenAI chat completions
+      const apiKey = apiKeyInput.value.trim();
+      if(apiKey){
+        appendBot('Thinking...');
+        try{
+          const payload = {
+            model: 'gpt-4o-mini',
+            messages: [
+              {role:'system', content: 'You are a friendly English teacher. Keep responses short (1-3 sentences) and help the user practice speaking. When in correction mode, highlight simple grammar issues.'},
+              {role:'user', content: `${currentMode} | ${text}`}
+            ],
+            max_tokens: 200,
+            temperature: 0.7
+          };
+          const res = await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify(payload)});
+          const j = await res.json();
+          if(j.error){throw new Error(j.error.message||JSON.stringify(j))}
+          const reply = j.choices?.[0]?.message?.content || 'Sorry, no reply.';
+          // remove the last 'Thinking...' and append reply
+          if(log.lastChild && log.lastChild.textContent==='Thinking...') log.removeChild(log.lastChild);
+          appendBot(reply);
+          if(currentMode==='corrections') showCorrections(text, reply);
+        }catch(err){
+          console.error(err);
+          if(log.lastChild && log.lastChild.textContent==='Thinking...') log.removeChild(log.lastChild);
+          appendBot('Error calling API — falling back to offline bot.');
+          const r = offlineReply(text, currentMode);
+          appendBot(r);
+          if(currentMode==='corrections') showCorrections(text, r);
+        }
+        return;
+      }
+
+      // Offline fallback
+      const reply = offlineReply(text, currentMode);
+      appendBot(reply);
+      if(currentMode==='corrections') showCorrections(text, reply);
+    }
+
+    // Show simple grammar suggestions
+    function showCorrections(original, reply){
+      const sug = grammarSuggestions(original);
+      correctionsPanel.innerHTML = '';
+      if(sug.length===0){ correctionsPanel.textContent = 'No simple grammar suggestions found. Keep practicing!'; return; }
+      const ul = document.createElement('ul'); sug.forEach(s=>{const li=document.createElement('li');li.textContent=s;ul.appendChild(li)});
+      correctionsPanel.appendChild(ul);
+    }
+
+    // Typing send
+    userInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ const v=this.value.trim(); if(!v) return; this.value=''; onUserSpoken(v); } });
+
+    // initial welcome
+    appendBot('Hello — I\'m your practice AI. Choose a mode and say something or type to start.');
+
+  })();
+  </script></body>
 </html>
