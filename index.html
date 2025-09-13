@@ -1,278 +1,406 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>English Practice AI — Speak & Improve</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vidya Darshan Coaching Centre</title>
   <style>
-    :root{--bg:#0f1724;--card:#0b1220;--muted:#9aa6b2;--accent:#3b82f6;--glass:rgba(255,255,255,0.03)}
-    *{box-sizing:border-box;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial}
-    body{margin:0;background:linear-gradient(180deg,#071127 0%, #071e2a 100%);color:#e6eef6;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
-    .app{width:100%;max-width:980px;background:var(--card);border-radius:16px;padding:18px;box-shadow:0 10px 30px rgba(2,6,23,0.6);}
-    header{display:flex;gap:12px;align-items:center;margin-bottom:12px}
-    header h1{margin:0;font-size:20px}
-    .controls{display:flex;gap:8px;margin-left:auto}
-    button{background:var(--glass);border:1px solid rgba(255,255,255,0.04);color:inherit;padding:8px 12px;border-radius:10px;cursor:pointer}
-    .columns{display:grid;grid-template-columns:360px 1fr;gap:14px}
-    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:12px;border-radius:12px}
-    .mode{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
-    .mode button.active{outline:2px solid rgba(59,130,246,0.25);box-shadow:0 6px 18px rgba(59,130,246,0.08)}
-    .log{height:480px;overflow:auto;padding:8px;border-radius:8px;background:rgba(0,0,0,0.06)}
-    .entry{margin:8px 0;padding:8px;border-radius:8px}
-    .user{background:linear-gradient(90deg, rgba(59,130,246,0.12), rgba(59,130,246,0.06));text-align:right}
-    .bot{background:rgba(255,255,255,0.02)}
-    .transcript{margin-top:8px;color:var(--muted);font-size:13px}
-    .settings{margin-top:10px;display:flex;gap:8px;flex-direction:column}
-    label{font-size:13px;color:var(--muted)}
-    input[type=text],textarea,select{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
-    footer{margin-top:12px;font-size:13px;color:var(--muted)}
-    .small{font-size:12px;color:var(--muted)}
-    .corrections{background:rgba(255,255,255,0.02);padding:8px;border-radius:8px;margin-top:8px;color:#ffd6d6}
+    /* Global Styles */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: #fff;
+    }
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px 40px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .logo img {
+      height: 50px;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      border-bottom: 2px solid #ffd700;
+      padding-bottom: 3px;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 80px;
+      text-align: center;
+      background: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      position: relative;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      color: #ffd700;
+    }
+    .hero-content h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      font-weight: 900;
+      text-shadow: 2px 2px 4px #222;
+    }
+    .hero-content p {
+      font-size: 1.4rem;
+      margin-bottom: 30px;
+    }
+    .btn-primary {
+      background-color: #ffd700;
+      color: #000;
+      padding: 15px 35px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+      transition: background-color 0.3s ease;
+    }
+    .btn-primary:hover {
+      background-color: #e6c200;
+    }
+
+    /* Section Styles */
+    section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    h2 {
+      color: #ffd700;
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 900px;
+      margin: 0 auto 20px;
+      text-align: center;
+    }
+
+    /* About Us */
+    #about p {
+      max-width: 800px;
+      margin: 20px auto 0;
+    }
+
+    /* Courses List */
+    #courses ul {
+      list-style-type: none;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0;
+    }
+    #courses ul li {
+      background: rgba(255, 255, 255, 0.15);
+      margin: 10px 0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.15rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    /* Admission Form */
+    #admission form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.1);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    #admission form label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+    }
+    #admission form input, 
+    #admission form select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+    #admission form button {
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      background-color: #ffd700;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+      transition: background-color 0.3s ease;
+    }
+    #admission form button:hover {
+      background-color: #e6c200;
+    }
+
+    /* Testimonials */
+    #testimonials {
+      background: rgba(0,0,0,0.25);
+      padding: 60px 20px;
+    }
+    .testimonial-list {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .testimonial {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+      font-style: italic;
+      color: #ffeb3b;
+      position: relative;
+    }
+    .testimonial::before {
+      content: "“";
+      font-size: 3rem;
+      position: absolute;
+      top: 5px;
+      left: 15px;
+      color: #ffd700;
+      font-weight: 900;
+    }
+    .testimonial cite {
+      display: block;
+      margin-top: 15px;
+      font-style: normal;
+      font-weight: 700;
+      text-align: right;
+      color: #fff;
+    }
+
+    /* Gallery */
+    #gallery {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+      gap: 15px;
+    }
+    #gallery img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    #gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Contact */
+    #contact {
+      background: rgba(0,0,0,0.25);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    #contact iframe {
+      max-width: 600px;
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
+    }
+    #contact p {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: rgba(0,0,0,0.5);
+      font-size: 0.95rem;
+      color: #eee;
+      margin-top: 40px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+      nav ul {
+        gap: 15px;
+      }
+    }
+
   </style>
 </head>
 <body>
-  <div class="app">
-    <header>
-      <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36'><rect rx='8' width='36' height='36' fill='%233b82f6'/><text x='50%' y='55%' font-size='16' font-family='Arial' text-anchor='middle' fill='white'>EN</text></svg>" alt="logo" style="width:42px;height:42px;border-radius:8px;"/>
-      <h1>English Practice AI — Speak & Improve</h1>
-      <div class="controls">
-        <button id="startListen">Start Listening</button>
-        <button id="stopListen" disabled>Stop</button>
-      </div>
-    </header><div class="columns">
-  <div class="panel">
-    <div class="mode">
-      <button class="mode-btn active" data-mode="casual">Casual Chat</button>
-      <button class="mode-btn" data-mode="interview">Interview</button>
-      <button class="mode-btn" data-mode="corrections">Correction Mode</button>
+
+  <header>
+    <div class="logo">
+      <img src="logo-placeholder.png" alt="Vidya Darshan Coaching Logo" />
     </div>
+    <nav>
+      <ul>
+        <li><a href="#home" class="active">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#courses">Courses</a></li>
+        <li><a href="#admission">Admission</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <div class="log" id="log" aria-live="polite"></div>
-
-    <div class="transcript" id="transcript">Transcript: —</div>
-
-    <div class="settings">
-      <label>Type a message (or press Enter)</label>
-      <input id="userInput" placeholder="Say something like: "Hello! I'm practicing my English." />
-
-      <label>Optional: Paste your OpenAI API key (leave blank to use the built-in offline bot)</label>
-      <input id="apiKey" type="text" placeholder="sk-... (optional)" />
-
-      <label>TTS voice:</label>
-      <select id="voiceSelect"></select>
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Vidya Darshan Coaching Centre</h1>
+      <p>Expert coaching from Class 6 to 12 (Bihar Board & CBSE) for school & competitive exam success.</p>
+      <a href="#admission" class="btn-primary">Enroll Now</a>
     </div>
-  </div>
+  </section>
 
-  <div class="panel">
-    <h3 style="margin-top:0">How to use</h3>
-    <ol>
-      <li>Pick a mode. <strong>Corrections</strong> will show simple grammar suggestions.</li>
-      <li>Click <em>Start Listening</em> and speak, or type into the box and press Enter.</li>
-      <li>If you add an OpenAI API key the app will use it to produce much better replies (your key stays in your browser only).</li>
-    </ol>
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Vidya Darshan Coaching Centre is dedicated to nurturing young minds by offering quality coaching focused on school subjects and competitive exam preparation for students of Bihar Board and CBSE, from class 6th through 12th. We combine experienced faculty, customized learning plans, and a supportive environment for holistic success.</p>
+  </section>
 
-    <h3>What this AI can do</h3>
+  <section id="courses">
+    <h2>Courses We Offer</h2>
     <ul>
-      <li>Practice casual conversation and interviews.</li>
-      <li>Give short corrections and alternative phrasing.</li>
-      <li>Read the AI responses aloud (Text-to-Speech).</li>
+      <li>Bihar Board Classes 6th to 12th – Science, Math, Social Studies, English, Hindi</li>
+      <li>CBSE Board Classes 6th to 12th – Full syllabus coaching</li>
+      <li>Competitive Exam Preparation: NTSE, NDA, JEE, NEET, and other state & national level exams</li>
+      <li>Special Weekend Crash Courses for Exam Boosters</li>
     </ul>
+  </section>
 
-    <div class="corrections" id="correctionsPanel" style="display:none"></div>
+  <section id="admission">
+    <h2>Admission Enquiry</h2>
+    <form>
+      <label for="name">Student Name</label>
+      <input type="text" id="name" name="name" placeholder="Enter full name" required />
 
-    <footer>
-      <div class="small">This page runs entirely in your browser. No audio is sent anywhere unless you provide an OpenAI API key and enable sending text to the OpenAI API.</div>
-    </footer>
-  </div>
-</div>
+      <label for="class">Class</label>
+      <select id="class" name="class" required>
+        <option value="" disabled selected>Select Class</option>
+        <option value="6">6th</option>
+        <option value="7">7th</option>
+        <option value="8">8th</option>
+        <option value="9">9th</option>
+        <option value="10">10th</option>
+        <option value="11">11th</option>
+        <option value="12">12th</option>
+      </select>
 
-  </div>  <script>
-  // Small English practice app
-  (function(){
-    const log = document.getElementById('log');
-    const transcriptEl = document.getElementById('transcript');
-    const startBtn = document.getElementById('startListen');
-    const stopBtn = document.getElementById('stopListen');
-    const userInput = document.getElementById('userInput');
-    const apiKeyInput = document.getElementById('apiKey');
-    const correctionsPanel = document.getElementById('correctionsPanel');
-    const voiceSelect = document.getElementById('voiceSelect');
-    let currentMode = 'casual';
+      <label for="board">Board</label>
+      <select id="board" name="board" required>
+        <option value="" disabled selected>Select Board</option>
+        <option value="bihar">Bihar Board</option>
+        <option value="cbse">CBSE</option>
+      </select>
 
-    // Mode buttons
-    document.querySelectorAll('.mode-btn').forEach(b=>b.addEventListener('click', ()=>{
-      document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      currentMode = b.dataset.mode;
-      correctionsPanel.style.display = currentMode==='corrections' ? 'block' : 'none';
-      appendBot(`Mode switched to: ${prettyMode(currentMode)}`);
-    }));
+      <label for="contact">Contact Number</label>
+      <input type="tel" id="contact" name="contact" placeholder="Enter phone number" required />
 
-    function prettyMode(m){return ({casual:'Casual Chat', interview:'Interview Practice', corrections:'Correction Mode'})[m]||m}
+      <button type="submit">Submit</button>
+    </form>
+  </section>
 
-    function appendUser(text){
-      const div = document.createElement('div');div.className='entry user';div.textContent = text;log.appendChild(div);log.scrollTop = log.scrollHeight;
-    }
-    function appendBot(text){
-      const div = document.createElement('div');div.className='entry bot';div.textContent = text;log.appendChild(div);log.scrollTop = log.scrollHeight;
-      speak(text);
-    }
+  <section id="testimonials">
+    <h2>What Our Students Say</h2>
+    <div class="testimonial-list">
+      <div class="testimonial">
+        "Vidya Darshan Coaching has transformed my understanding of science and math. The teachers are supportive and the study material is excellent."
+        <cite>- Riya, Class 12 (CBSE)</cite>
+      </div>
+      <div class="testimonial">
+        "Great place for Bihar Board students. They helped me crack my exams with confidence and top scores."
+        <cite>- Amit, Class 10 (Bihar Board)</cite>
+      </div>
+      <div class="testimonial">
+        "The competitive exam preparation classes gave me the edge I needed. Highly recommend!"
+        <cite>- Suman, NTSE Aspirant</cite>
+      </div>
+    </div>
+  </section>
 
-    // Basic offline bot responses (fallback)
-    function offlineReply(userText, mode){
-      const t = userText.toLowerCase();
-      if(mode==='interview'){
-        const q = [
-          "Tell me about yourself.",
-          "Why do you want this job?",
-          "What are your strengths and weaknesses?",
-          "Where do you see yourself in five years?"
-        ];
-        const chosen = q[Math.floor(Math.random()*q.length)];
-        return `Interview prompt: ${chosen}`;
-      }
-      if(mode==='corrections'){
-        return `I'll check and suggest corrections for: \n"${userText}"`;
-      }
-      // casual
-      if(/how are you|how's it going/.test(t)) return "I'm good — thanks for asking! Tell me about your day.";
-      if(/hello|hi\b/.test(t)) return "Hi! What would you like to talk about?";
-      if(/weather/.test(t)) return "I can't see real weather from here, but tell me what's it like where you are.";
-      // fallback
-      const prompts = [
-        "Tell me more about that.",
-        "Why do you think so?",
-        "That's interesting — can you explain?",
-        "Nice — how did that make you feel?"
-      ];
-      return prompts[Math.floor(Math.random()*prompts.length)];
-    }
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <img src="coaching-hall-1.jpg" alt="Coaching Centre Hall" />
+    <img src="study-session.jpg" alt="Study Session" />
+    <img src="student-group.jpg" alt="Students Group" />
+  </section>
 
-    // Grammar suggestions (very simple rules) — not a replacement for real grammar-checkers
-    function grammarSuggestions(text){
-      const suggestions = [];
-      // Capitalize 'i' pronoun
-      text.replace(/\b i \b/gi, match=>{
-        suggestions.push("Use uppercase 'I' when referring to yourself.");
+  <section id="contact">
+    <h2>Contact & Location</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3559.3018622094167!2d85.88400641502099!3d25.59409508364565!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f331de8b12a62b%3A0xc7db09d9e0a0575!2sBihar%20Board%20Office!5e0!3m2!1sen!2sin!4v1694620400000!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+    <p>Address: Vidya Darshan Coaching Centre, Patna, Bihar, India</p>
+    <p>Phone: +91 98765 43210</p>
+    <p>Email: info@vidyadarshancoaching.in</p>
+  </section>
+
+  <footer>
+    <p>© 2025 Vidya Darshan Coaching Centre. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Simple smooth scroll for nav links
+    document.querySelectorAll('nav ul li a').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        document.querySelectorAll('nav ul li a').forEach(a => a.classList.remove('active'));
+        link.classList.add('active');
       });
-      // Missing question mark for questions starting with wh- or auxiliary verbs
-      if(/^\s*(who|what|where|when|why|how)\b/i.test(text) && !/[?]$/.test(text)){
-        suggestions.push("This sentence looks like a question — consider ending with a question mark.");
-      }
-      if(/^\s*(is|are|do|does|did|can|could|would|should|will)\b/i.test(text) && !/[?]$/.test(text)){
-        suggestions.push("This looks like a yes/no question — add a question mark at the end.");
-      }
-      // Simple common verb fix
-      if(/i have went|i wented/i.test(text)) suggestions.push("Use 'I went' or 'I have gone' instead of 'I have went' or 'I wented'.");
-      if(/\bwasn't\b/i.test(text)){} // placeholder
-      return [...new Set(suggestions)];
-    }
+    });
+  </script>
 
-    // Speech recognition setup
-    let recognition = null;
-    let listening = false;
-    try{
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      recognition = new SpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.interimResults = true;
-      recognition.continuous = false;
-
-      recognition.onresult = (e)=>{
-        const full = Array.from(e.results).map(r=>r[0].transcript).join('');
-        transcriptEl.textContent = 'Transcript: ' + full;
-        if(e.results[0].isFinal){
-          onUserSpoken(full);
-        }
-      };
-      recognition.onerror = (ev)=>{console.error('Speech error', ev); appendBot('Speech recognition error: '+(ev.error||ev.message)); stopListening();}
-      recognition.onend = ()=>{listening=false;startBtn.disabled=false;stopBtn.disabled=true;}
-    }catch(err){
-      appendBot('Speech recognition not available in this browser. You can still type.');
-      startBtn.disabled = true;
-    }
-
-    function startListening(){ if(!recognition) return; listening=true; recognition.start(); startBtn.disabled=true; stopBtn.disabled=false; }
-    function stopListening(){ if(!recognition) return; recognition.stop(); listening=false; startBtn.disabled=false; stopBtn.disabled=true; }
-    startBtn.addEventListener('click', ()=> startListening());
-    stopBtn.addEventListener('click', ()=> stopListening());
-
-    // Text-to-Speech voices
-    function populateVoices(){
-      const voices = speechSynthesis.getVoices();
-      voiceSelect.innerHTML='';
-      voices.forEach((v,i)=>{const o=document.createElement('option');o.value=i;o.textContent=v.name + ' ('+v.lang+')'; voiceSelect.appendChild(o)});
-    }
-    populateVoices(); if(speechSynthesis.onvoiceschanged!==undefined) speechSynthesis.onvoiceschanged = populateVoices;
-
-    function speak(text){
-      if(!('speechSynthesis' in window)) return;
-      const u = new SpeechSynthesisUtterance(text);
-      const idx = Number(voiceSelect.value||0);
-      const voices = speechSynthesis.getVoices(); if(voices[idx]) u.voice = voices[idx];
-      u.rate = 1; u.pitch = 1; speechSynthesis.cancel(); speechSynthesis.speak(u);
-    }
-
-    // Handle user's spoken or typed input
-    async function onUserSpoken(text){
-      transcriptEl.textContent = 'Transcript: ' + text;
-      appendUser(text);
-
-      // If API key provided, call OpenAI chat completions
-      const apiKey = apiKeyInput.value.trim();
-      if(apiKey){
-        appendBot('Thinking...');
-        try{
-          const payload = {
-            model: 'gpt-4o-mini',
-            messages: [
-              {role:'system', content: 'You are a friendly English teacher. Keep responses short (1-3 sentences) and help the user practice speaking. When in correction mode, highlight simple grammar issues.'},
-              {role:'user', content: `${currentMode} | ${text}`}
-            ],
-            max_tokens: 200,
-            temperature: 0.7
-          };
-          const res = await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify(payload)});
-          const j = await res.json();
-          if(j.error){throw new Error(j.error.message||JSON.stringify(j))}
-          const reply = j.choices?.[0]?.message?.content || 'Sorry, no reply.';
-          // remove the last 'Thinking...' and append reply
-          if(log.lastChild && log.lastChild.textContent==='Thinking...') log.removeChild(log.lastChild);
-          appendBot(reply);
-          if(currentMode==='corrections') showCorrections(text, reply);
-        }catch(err){
-          console.error(err);
-          if(log.lastChild && log.lastChild.textContent==='Thinking...') log.removeChild(log.lastChild);
-          appendBot('Error calling API — falling back to offline bot.');
-          const r = offlineReply(text, currentMode);
-          appendBot(r);
-          if(currentMode==='corrections') showCorrections(text, r);
-        }
-        return;
-      }
-
-      // Offline fallback
-      const reply = offlineReply(text, currentMode);
-      appendBot(reply);
-      if(currentMode==='corrections') showCorrections(text, reply);
-    }
-
-    // Show simple grammar suggestions
-    function showCorrections(original, reply){
-      const sug = grammarSuggestions(original);
-      correctionsPanel.innerHTML = '';
-      if(sug.length===0){ correctionsPanel.textContent = 'No simple grammar suggestions found. Keep practicing!'; return; }
-      const ul = document.createElement('ul'); sug.forEach(s=>{const li=document.createElement('li');li.textContent=s;ul.appendChild(li)});
-      correctionsPanel.appendChild(ul);
-    }
-
-    // Typing send
-    userInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ const v=this.value.trim(); if(!v) return; this.value=''; onUserSpoken(v); } });
-
-    // initial welcome
-    appendBot('Hello — I\'m your practice AI. Choose a mode and say something or type to start.');
-
-  })();
-  </script></body>
+</body>
 </html>
